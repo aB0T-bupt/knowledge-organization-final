@@ -1,0 +1,11 @@
+PREFIX kg: <https://w3id.org/beijing-metro-course/schema/>
+PREFIX id: <https://w3id.org/beijing-metro-course/id/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?lineName ?stationName ?attractionName WHERE {
+  VALUES ?line { id:line-1 }
+  ?line rdfs:label ?lineName .
+  ?station kg:onLine ?line ; rdfs:label ?stationName .
+  ?attraction kg:servedBy ?station ; rdfs:label ?attractionName .
+}
+ORDER BY ?stationName ?attractionName

@@ -1,0 +1,17 @@
+id	name	type	station	source
+military-museum	中国人民革命军事博物馆	Museum	军事博物馆	guide
+millennium-monument	中华世纪坛	HeritageSite	军事博物馆	guide
+capital-museum	首都博物馆	Museum	木樨地	guide
+national-theatre	国家大剧院	CulturalVenue	天安门西	guide
+zhongshan-park	中山公园	Park	天安门西	guide
+palace-museum	故宫博物院	Museum	天安门东	guide
+national-museum	中国国家博物馆	Museum	天安门东	guide
+tiananmen-square	天安门广场	HeritageSite	天安门东	guide
+wangfujing	王府井商业街	HistoricStreet	王府井	guide
+ancient-observatory	北京古观象台	HeritageSite	建国门	guide
+qianmen-street	前门大街	HistoricStreet	前门	guide
+yonghe-temple	雍和宫	HeritageSite	雍和宫	guide
+temple-of-heaven	天坛公园	Park	天坛东门	rail-guide
+beihai-park	北海公园	Park	北海北	guide
+prince-gong-mansion	恭王府	HeritageSite	北海北	guide
+nanluoguxiang	南锣鼓巷	HistoricStreet	南锣鼓巷	rail-guide

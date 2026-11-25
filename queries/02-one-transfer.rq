@@ -1,0 +1,19 @@
+PREFIX kg: <https://w3id.org/beijing-metro-course/schema/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?startName ?firstLine ?transferName ?secondLine
+                ?arrivalName ?attractionName WHERE {
+  VALUES ?startName { "北京站"@zh }
+  ?start a kg:Station ; rdfs:label ?startName ; kg:onLine ?first .
+  ?transfer kg:onLine ?first, ?second ; rdfs:label ?transferName .
+  ?arrival kg:onLine ?second ; rdfs:label ?arrivalName .
+  ?attraction kg:servedBy ?arrival ; rdfs:label ?attractionName .
+  ?first rdfs:label ?firstLine .
+  ?second rdfs:label ?secondLine .
+  FILTER (?first != ?second && ?start != ?transfer && ?transfer != ?arrival)
+  FILTER NOT EXISTS {
+    ?start kg:onLine ?direct .
+    ?attraction kg:servedBy/kg:onLine ?direct .
+  }
+}
+ORDER BY ?secondLine ?transferName ?arrivalName ?attractionName
