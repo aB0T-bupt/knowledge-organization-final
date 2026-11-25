@@ -50,7 +50,7 @@ def render_result(path, rows, graph_size, station_order):
     index = path.stem == "01-line-attractions"
     title = "沿线寻景" if index else "一换即达"
     description = ("1号线八通线 · 景点与下车站" if index
-                   else "北京站 · 样本内恰好换乘一次")
+                   else "北京站 · 全网中恰好换乘一次")
     first_current, second_current = (' aria-current="page"', "") if index else ("", ' aria-current="page"')
     content = line_index(rows, station_order) if index else transfer_boards(rows)
     path.write_text(f"""<!doctype html>
@@ -63,6 +63,7 @@ def render_result(path, rows, graph_size, station_order):
 </head>
 <body><main>
 <nav aria-label="导览查询">
+<a href="network.html">全网导览</a>
 <a href="01-line-attractions.html"{first_current}>沿线景点</a>
 <a href="02-one-transfer.html"{second_current}>一次换乘</a>
 </nav>

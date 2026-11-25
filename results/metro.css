@@ -42,3 +42,10 @@ footer { margin-top: 22px; padding-top: 12px; border-top: 1px solid #888578; col
   .boards { grid-template-columns: 1fr; }
   .station { grid-template-columns: 1fr; }
 }
+
+.line-8 { --route: #14785f; }
+.filters { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 20px 0; }
+.filters label { font-weight: 700; }
+.filters select, .filters input { margin-left: 6px; padding: 8px; max-width: 100%; color: inherit; background: #f8f4e9; border: 1px solid #888578; font: inherit; }
+#summary { margin-bottom: 14px; }
+#matches { --route: #aa382d; }

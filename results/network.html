@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全网导览｜北京地铁景点导览</title>
+<link rel="stylesheet" href="metro.css">
+<script defer src="network-data.js"></script>
+<script defer src="network.js"></script>
+</head>
+<body><main>
+<nav aria-label="导览查询">
+<a href="network.html" aria-current="page">全网导览</a>
+<a href="01-line-attractions.html">查询一示例</a>
+<a href="02-one-transfer.html">查询二示例</a>
+</nav>
+<header><h1>全网导览</h1><p class="meta">北京城市轨道交通 · 2026 年 11 月 25 日快照</p></header>
+<div class="filters">
+<label>查询方式 <select id="mode"><option value="line">按线路查景点</option><option value="transfer">从起点一次换乘</option></select></label>
+<label id="line-field">线路 <select id="line"></select></label>
+<label id="station-field" hidden>起点站 <input id="station" list="station-list" value="北京站"><datalist id="station-list"></datalist></label>
+</div>
+<p id="summary" aria-live="polite"></p>
+<section id="matches" aria-label="导览结果"></section>
+<footer>结果由同一 RDF 图谱预先运行 SPARQL 生成 · 景点覆盖 16 个精选条目</footer>
+</main></body>
+</html>
