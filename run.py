@@ -2,12 +2,13 @@
 
 import csv
 import json
-from html import escape
 from pathlib import Path
 from urllib.parse import quote
 
 from rdflib import Graph, Literal, Namespace, URIRef
 from rdflib.namespace import DCTERMS, OWL, RDF, RDFS, XSD
+
+from report_ui import render_result
 
 ROOT = Path(__file__).resolve().parent
 KG = Namespace("https://w3id.org/beijing-metro-course/schema/")
@@ -126,29 +127,6 @@ def validate_graph(graph):
     return {kind: len(items) for kind, items in entities.items()}, links
 
 
-def render_result(path, title, columns, rows, graph_size):
-    headings = "".join(f"<th>{escape(col)}</th>" for col in columns)
-    body = "".join(
-        "<tr>" + "".join(f"<td>{escape(cell)}</td>" for cell in row) + "</tr>"
-        for row in rows
-    )
-    path.write_text(f"""<!doctype html><html lang="zh-CN"><meta charset="utf-8">
-<title>{escape(title)}</title>
-<style>
-* {{box-sizing:border-box}} body {{margin:0;background:#f0f5f7;color:#173043;
-font:16px 'Microsoft YaHei','Noto Sans SC',sans-serif}}
-main {{margin:32px auto;width:calc(100% - 80px);max-width:1240px;background:white;
-border:1px solid #d2e1e7;border-radius:12px;overflow:hidden}}
-header {{padding:25px 30px;background:#12394a;color:white}} h1 {{margin:0 0 10px;font-size:27px}}
-header p {{margin:0;color:#bce5e4}} table {{border-collapse:collapse;width:100%}}
-th, td {{padding:9px 13px;text-align:left;border-bottom:1px solid #e8eff1}}
-th {{background:#def0ef}} tr:nth-child(even) {{background:#f5fafb}}
-</style><main><header><h1>{escape(title)}</h1><p>SPARQL 执行结果 · RDFLib ·
-{len(rows)} 行 · RDF 图 {graph_size} 条三元组</p></header>
-<table><thead><tr>{headings}</tr></thead><tbody>{body}</tbody></table></main></html>""",
-                    encoding="utf-8")
-
-
 def main():
     graph = build_graph()
     entities, links = validate_graph(graph)
@@ -159,13 +137,15 @@ def main():
     output.mkdir(exist_ok=True)
 
     specs = [
-        ("01-line-attractions", "查询一 · 1号线八通线景点索引",
+        ("01-line-attractions",
          ("线路", "下车站", "景点")),
-        ("02-one-transfer", "查询二 · 从北京站出发，恰好一次换乘",
+        ("02-one-transfer",
          ("起点", "首乘线路", "换乘站", "次乘线路", "下车站", "景点")),
     ]
     results = {}
-    for stem, title, columns in specs:
+    lines = json.loads((ROOT / 'data/lines.json').read_text(encoding='utf-8'))
+    station_order = next(sequence.split() for number, _, _, sequence in lines if number == '1')
+    for stem, columns in specs:
         query = (ROOT / f"queries/{stem}.rq").read_text(encoding="utf-8")
         rows = [tuple(map(str, row)) for row in reloaded.query(query)]
         results[stem] = rows
@@ -173,7 +153,7 @@ def main():
             writer = csv.writer(stream)
             writer.writerow(columns)
             writer.writerows(rows)
-        render_result(output / f"{stem}.html", title, columns, rows, len(reloaded))
+        render_result(output / f"{stem}.html", rows, len(reloaded), station_order)
         print(f"{stem}: {len(rows)} rows")
 
     first, second = results.values()
